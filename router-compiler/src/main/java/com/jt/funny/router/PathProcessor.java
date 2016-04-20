@@ -1,17 +1,18 @@
 package com.jt.funny.router;
 
 import com.google.auto.service.AutoService;
+import com.jt.funny.router.annotation.Route;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
 
-import javax.annotation.processing.AbstractProcessor;
-import javax.annotation.processing.ProcessingEnvironment;
-import javax.annotation.processing.Processor;
-import javax.annotation.processing.RoundEnvironment;
+import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;
+import javax.lang.model.element.Element;
+import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
+import javax.tools.Diagnostic;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Set;
@@ -25,9 +26,15 @@ import java.util.Set;
 @AutoService(Processor.class)
 public class PathProcessor extends AbstractProcessor {
 
+    private Messager mMessager;
+    private Filer mFiler;
+
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
         super.init(processingEnv);
+
+        mMessager = processingEnv.getMessager();
+        mFiler = processingEnv.getFiler();
     }
 
     @Override
@@ -37,17 +44,32 @@ public class PathProcessor extends AbstractProcessor {
 
     @Override
     public Set<String> getSupportedAnnotationTypes() {
-        return Collections.singleton(Path.class.getCanonicalName());
+        return Collections.singleton(Route.class.getCanonicalName());
     }
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        MethodSpec main = MethodSpec.methodBuilder("main")
+
+        Set<? extends Element> targets = roundEnv.getElementsAnnotatedWith(Route.class);
+
+        MethodSpec main = MethodSpec.methodBuilder("routes")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .returns(void.class)
                 .addParameter(String[].class, "args")
                 .addStatement("$T.out.println($S)", System.class, "Hello, JavaPoet!")
                 .build();
+
+        for (Element target : targets) {
+            if (target.getKind() != ElementKind.CLASS) {
+                error(target.getSimpleName() + " is not a class");
+                return false;
+            }
+
+            Route route = target.getAnnotation(Route.class);
+
+
+        }
+
 
         TypeSpec helloWorld = TypeSpec.classBuilder("HelloWorld")
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
@@ -63,5 +85,9 @@ public class PathProcessor extends AbstractProcessor {
             e.printStackTrace();
         }
         return true;
+    }
+
+    private void error(String error) {
+        mMessager.printMessage(Diagnostic.Kind.ERROR, error);
     }
 }

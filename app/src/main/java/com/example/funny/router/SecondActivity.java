@@ -2,7 +2,7 @@ package com.example.funny.router;
 
 import android.app.Activity;
 import android.os.Bundle;
-import com.jt.funny.router.Path;
+import com.jt.funny.router.annotation.Route;
 
 /**
  * Created by jiangtao on 16/4/20.
@@ -10,9 +10,8 @@ import com.jt.funny.router.Path;
  * @author jiang.tao
  * @version 1.0.0
  */
-@Path(
+@Route(
         schema = "funny",
-        authority = "page",
         path = "second",
         clss = SecondActivity.class
 )

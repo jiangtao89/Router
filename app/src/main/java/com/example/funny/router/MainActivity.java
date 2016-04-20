@@ -8,12 +8,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import com.jt.funny.router.Path;
+import com.jt.funny.router.annotation.Route;
 
-@Path(
+@Route(
         schema = "funny",
-        authority = "page",
-        path = "main",
+        path = {"main", "main2"},
         clss = MainActivity.class
 )
 public class MainActivity extends AppCompatActivity {
@@ -29,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                System.out.println(MainActivity.class);
+
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }

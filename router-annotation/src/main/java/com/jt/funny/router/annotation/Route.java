@@ -1,4 +1,4 @@
-package com.jt.funny.router;
+package com.jt.funny.router.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.CLASS)
 @Target(ElementType.TYPE)
-public @interface Path {
+public @interface Route {
 
     /**
      * uri schema
@@ -28,14 +28,14 @@ public @interface Path {
      *
      * @return
      */
-    String authority() default "";
+    String authority() default "page";
 
     /**
      * uri path
      *
      * @return
      */
-    String path();
+    String[] path();
 
     /**
      * activity clss
