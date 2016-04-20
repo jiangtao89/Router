@@ -11,7 +11,8 @@ import java.util.HashMap;
  */
 class RouterManager {
 
-    private HashMap<String, Router> mRouters = new HashMap<String, Router>(4);
+    private HashMap<String, Class<? extends Router>> mRoutersClss = new HashMap<>();
+    private HashMap<String, Router> mRouters = new HashMap<>();
 
     private boolean isDebug = false;
 
@@ -30,24 +31,41 @@ class RouterManager {
      * @param scheme scheme
      * @param router router class
      */
-    public void registerRouter(String scheme, Router router) {
+    public void registerRouter(String scheme, Class<? extends Router> router) {
         if (RouterUtils.isEmpty(scheme)) {
             if (isDebug) {
                 throw new IllegalArgumentException("schema is empty!");
             }
             return;
         }
-        mRouters.put(scheme, router);
+        mRoutersClss.put(scheme, router);
     }
 
     /**
      * getRouter
      *
      * @param scheme scheme
-     * @return Router
+     * @return IRouter
      */
     public Router getRouter(String scheme) {
-        return mRouters.get(scheme);
+        Router router = mRouters.get(scheme);
+        if (router != null) {
+            return router;
+        }
+        Class<? extends Router> clss = mRoutersClss.get(scheme);
+        if (clss != null) {
+            try {
+                router = clss.newInstance();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            if (router != null) {
+                mRouters.put(scheme, router);
+            }
+        }
+        return router;
     }
 
 }

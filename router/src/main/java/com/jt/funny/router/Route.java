@@ -84,11 +84,11 @@ public class Route {
      * concurrent use.
      * <p>
      * <p>An absolute hierarchical URI reference follows the pattern:
-     * {@code <scheme>://<authority><absolute path>?<query>#<fragment>}
+     * {@code <scheme>://<host><absolute path>?<query>#<fragment>}
      * <p>
      * <p>Relative URI references (which are always hierarchical) follow one
      * of two patterns: {@code <relative or absolute path>?<query>#<fragment>}
-     * or {@code //<authority><absolute path>?<query>#<fragment>}
+     * or {@code //<host><absolute path>?<query>#<fragment>}
      * <p>
      * <p>An opaque URI follows this pattern:
      * {@code <scheme>:<opaque part>#<fragment>}
@@ -122,18 +122,10 @@ public class Route {
         }
 
         /**
-         * Encodes and sets the authority.
+         * Encodes and sets the host.
          */
-        public Builder authority(String authority) {
+        public Builder host(String authority) {
             mBuilder.authority(authority);
-            return this;
-        }
-
-        /**
-         * Sets the previously encoded authority.
-         */
-        public Builder encodedAuthority(String authority) {
-            mBuilder.encodedAuthority(authority);
             return this;
         }
 
@@ -142,7 +134,7 @@ public class Route {
          * necessary.
          * <p>
          * <p>If the path is not null and doesn't start with a '/', and if
-         * you specify a scheme and/or authority, the builder will prepend the
+         * you specify a scheme and/or host, the builder will prepend the
          * given path with a '/'.
          */
         public Builder path(String path) {
@@ -151,30 +143,10 @@ public class Route {
         }
 
         /**
-         * Sets the previously encoded path.
-         * <p>
-         * <p>If the path is not null and doesn't start with a '/', and if
-         * you specify a scheme and/or authority, the builder will prepend the
-         * given path with a '/'.
-         */
-        public Builder encodedPath(String path) {
-            mBuilder.encodedPath(path);
-            return this;
-        }
-
-        /**
          * Encodes the given segment and appends it to the path.
          */
         public Builder appendPath(String newSegment) {
             mBuilder.appendPath(newSegment);
-            return this;
-        }
-
-        /**
-         * Appends the given segment to the path.
-         */
-        public Builder appendEncodedPath(String newSegment) {
-            mBuilder.appendEncodedPath(newSegment);
             return this;
         }
 
@@ -219,14 +191,6 @@ public class Route {
          */
         public Builder appendQueryParameter(String key, Boolean value) {
             mBuilder.appendQueryParameter(key, value.toString());
-            return this;
-        }
-
-        /**
-         * Clears the the previously set query.
-         */
-        public Builder clearQuery() {
-            mBuilder.clearQuery();
             return this;
         }
 
@@ -303,11 +267,11 @@ public class Route {
         }
 
         /**
-         * Constructs a Route with the current attributes.
+         * Constructs a IRoute with the current attributes.
          */
         public Route build() {
             if (mActivity == null) {
-                if (Routers.isDebug()) {
+                if (Routers.getInstances().isDebug()) {
                     throw new IllegalArgumentException("route activity is null!");
                 }
                 return new Route();

@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 /**
  * Created by jiangtao on 16/3/26.
  *
@@ -13,7 +16,7 @@ import android.net.Uri;
 public class Routers {
 
     private Context mContext;
-    private static boolean sDebug = true;
+    private boolean mDebug = true;
 
     private final RouteManager mRouteManager;
     private final RouterManager mRouterManager;
@@ -42,7 +45,7 @@ public class Routers {
      * @param debug debug
      */
     public void setDebug(boolean debug) {
-        sDebug = debug;
+        mDebug = debug;
         mRouteManager.setDebug(debug);
         mRouterManager.setDebug(debug);
     }
@@ -50,8 +53,8 @@ public class Routers {
     /**
      * @return
      */
-    public static boolean isDebug() {
-        return sDebug;
+    public boolean isDebug() {
+        return mDebug;
     }
 
     /**
@@ -59,12 +62,29 @@ public class Routers {
      *
      * @param context context
      */
-    public void setContext(Context context) {
+    private void setContext(Context context) {
         mContext = context;
     }
 
-    Context getContext() {
-        return mContext;
+    public void inject(Context context) {
+        setContext(context);
+        inject();
+    }
+
+    private void inject() {
+        try {
+            Class clss = Class.forName("com.jt.funny.router.RoutersInject");
+            Method method = clss.getMethod("inject");
+            method.invoke(clss);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -73,7 +93,7 @@ public class Routers {
      * @param scheme scheme
      * @param router router class
      */
-    public void registerRouter(String scheme, Router router) {
+    public void registerRouter(String scheme, Class<? extends Router> router) {
         mRouterManager.registerRouter(scheme, router);
     }
 

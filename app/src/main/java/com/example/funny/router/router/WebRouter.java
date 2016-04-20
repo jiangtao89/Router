@@ -1,7 +1,7 @@
-package com.example.funny.router;
+package com.example.funny.router.router;
 
 import com.jt.funny.router.DefaultWebRouter;
-import com.jt.funny.router.annotation.Router;
+import com.jt.funny.router.annotation.IRouter;
 
 /**
  * Created by jiangtao on 16/4/20.
@@ -9,7 +9,6 @@ import com.jt.funny.router.annotation.Router;
  * @author jiang.tao
  * @version 1.0.0
  */
-
-@Router(schema = {"http", "https"}, clss = WebRouter.class)
+@IRouter(schema = {"http", "https"})
 public class WebRouter extends DefaultWebRouter {
 }

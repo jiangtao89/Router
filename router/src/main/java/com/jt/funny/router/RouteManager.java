@@ -14,7 +14,7 @@ class RouteManager {
 
     private boolean isDebug = false;
 
-    private HashMap<String, Target> mRoutes = new HashMap<String, Target>(8);
+    private HashMap<String, Target> mRoutes = new HashMap<String, Target>();
 
     public void setDebug(boolean debug) {
         isDebug = debug;

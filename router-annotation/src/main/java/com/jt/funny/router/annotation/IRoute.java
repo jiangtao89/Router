@@ -7,14 +7,14 @@ import java.lang.annotation.Target;
 
 /**
  * Created by jiangtao on 16/4/20.
- * schema://authority/path?id=12
+ * schema://host/path?id=12
  *
  * @author jiang.tao
  * @version 1.0.0
  */
 @Retention(RetentionPolicy.CLASS)
 @Target(ElementType.TYPE)
-public @interface Route {
+public @interface IRoute {
 
     /**
      * uri schema
@@ -24,11 +24,11 @@ public @interface Route {
     String schema();
 
     /**
-     * uri authority
+     * uri host
      *
      * @return
      */
-    String authority() default "page";
+    String host() default "page";
 
     /**
      * uri path
@@ -36,11 +36,4 @@ public @interface Route {
      * @return
      */
     String[] path();
-
-    /**
-     * activity clss
-     *
-     * @return activity class
-     */
-    Class clss();
 }
