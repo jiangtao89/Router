@@ -18,12 +18,20 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
     }
 
-    public void inject(View view) {
+    public void page(View view) {
         new Route.Builder()
                 .with(this)
                 .scheme("funny")
                 .host("page")
                 .path("third")
+                .build()
+                .open();
+    }
+
+    public void http(View view) {
+        new Route.Builder()
+                .with(this)
+                .withUrl("http://wwww.baidu.com")
                 .build()
                 .open();
     }
