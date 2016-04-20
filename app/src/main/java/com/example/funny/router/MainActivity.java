@@ -1,6 +1,7 @@
 package com.example.funny.router;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import com.jt.funny.router.Route;
@@ -19,11 +20,14 @@ public class MainActivity extends Activity {
     }
 
     public void page(View view) {
+
+//        startActivityForResult(new Intent(this, SecondActivity.class), 100);
         new Route.Builder()
                 .with(this)
                 .scheme("funny")
                 .host("page")
                 .path("third")
+                .requestCode(100)
                 .build()
                 .open();
     }
@@ -34,5 +38,14 @@ public class MainActivity extends Activity {
                 .withUrl("http://wwww.baidu.com")
                 .build()
                 .open();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (data != null) {
+
+        }
     }
 }

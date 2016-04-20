@@ -23,7 +23,7 @@ public abstract class Router implements IRouterHandler {
             return;
         }
         intent.setData(route.getUri());
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | route.getFlags());
+        intent.addFlags(route.getFlags());
 
         int requestCode = route.getRequestCode();
         if (requestCode < 0) {

@@ -1,7 +1,9 @@
 package com.example.funny.router;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import com.jt.funny.router.annotation.IRoute;
 
 /**
@@ -21,5 +23,12 @@ public class SecondActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_second);
+    }
+
+    public void exit(View view) {
+        Intent intent = new Intent();
+        intent.putExtra("jt", "jt");
+        setResult(RESULT_OK, intent);
+        finish();
     }
 }

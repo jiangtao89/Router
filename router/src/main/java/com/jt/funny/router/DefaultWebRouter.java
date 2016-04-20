@@ -33,6 +33,7 @@ public class DefaultWebRouter extends Router {
 
         try {
             Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             launchActivity(activity, route, intent);
         } catch (Exception e) {
             e.printStackTrace();
