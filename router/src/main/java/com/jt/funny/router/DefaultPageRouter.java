@@ -40,6 +40,10 @@ public class DefaultPageRouter extends Router {
 
         try {
             Intent intent = new Intent(activity, cls);
+            int requestCode = route.getRequestCode();
+            if (requestCode < 0) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            }
             launchActivity(activity, route, intent);
             return true;
         } catch (Exception e) {

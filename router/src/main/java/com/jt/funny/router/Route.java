@@ -15,49 +15,122 @@ public class Route {
 
     private static final int DEFAULT_REQUEST_CODE = -1;
 
+    /**
+     * uri
+     */
     private Uri mUri;
+
+    /**
+     * {@link Intent#addFlags(int)}
+     */
     private int mFlags;
+
+    /**
+     * {@link Activity#overridePendingTransition(int, int)}
+     */
     private int mEnterAnim;
+
+    /**
+     * {@link Activity#overridePendingTransition(int, int)}
+     */
     private int mExitAnim;
+
+    /**
+     * {@link Activity#startActivityForResult(Intent, int)}
+     */
     private int mRequestCode = -1;
+
+    /**
+     * current activity
+     */
     private Activity mActivity;
 
+    /**
+     * uri
+     *
+     * @return uri
+     */
     public Uri getUri() {
         return mUri;
     }
 
+    /**
+     * uri
+     *
+     * @param uri uri
+     */
     void setUri(Uri uri) {
         mUri = uri;
     }
 
+    /**
+     * flags
+     *
+     * @return flags
+     */
     public int getFlags() {
         return mFlags;
     }
 
+    /**
+     * flags
+     *
+     * @param flags flags
+     */
     void setFlags(int flags) {
         mFlags = flags;
     }
 
+    /**
+     * enter animation
+     *
+     * @return animation
+     */
     public int getEnterAnim() {
         return mEnterAnim;
     }
 
+    /**
+     * enter animation
+     *
+     * @param enterAnim enterAnim
+     */
     void setEnterAnim(int enterAnim) {
         mEnterAnim = enterAnim;
     }
 
+    /**
+     * exit animation
+     *
+     * @return animation
+     */
     public int getExitAnim() {
         return mExitAnim;
     }
 
+    /**
+     * exit animation
+     *
+     * @param exitAnimation exitAnimation
+     */
     void setExitAnim(int exitAnimation) {
         mExitAnim = exitAnimation;
     }
 
+    /**
+     * request code
+     *
+     * @param requestCode requestCode
+     */
     void setRequestCode(int requestCode) {
         mRequestCode = requestCode;
     }
 
+    /**
+     * request code
+     *
+     * @return request code
+     */
     public int getRequestCode() {
         return mRequestCode;
     }
@@ -71,10 +144,20 @@ public class Route {
         return Routers.getInstances().open(this);
     }
 
+    /**
+     * activity
+     *
+     * @param activity activity
+     */
     void setActivity(Activity activity) {
         mActivity = activity;
     }
 
+    /**
+     * activity
+     *
+     * @return activity
+     */
     public Activity getActivity() {
         return mActivity;
     }

@@ -15,6 +15,6 @@ public class MainApplication extends Application {
         super.onCreate();
 
         Routers.getInstances().setDebug(true);
-        Routers.getInstances().inject(this);
+        Routers.getInstances().inject();
     }
 }

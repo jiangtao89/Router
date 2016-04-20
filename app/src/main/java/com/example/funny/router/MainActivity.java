@@ -20,8 +20,6 @@ public class MainActivity extends Activity {
     }
 
     public void page(View view) {
-
-//        startActivityForResult(new Intent(this, SecondActivity.class), 100);
         new Route.Builder()
                 .with(this)
                 .scheme("funny")

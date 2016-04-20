@@ -16,6 +16,11 @@ class RouteManager {
 
     private HashMap<String, Target> mRoutes = new HashMap<String, Target>();
 
+    /**
+     * debug
+     *
+     * @param debug debug
+     */
     public void setDebug(boolean debug) {
         isDebug = debug;
     }
@@ -44,6 +49,12 @@ class RouteManager {
         mRoutes.put(RouterUtils.decodeWithoutQuery(uri), target);
     }
 
+    /**
+     * getTarget
+     *
+     * @param uri uri
+     * @return Target
+     */
     public Target getTarget(String uri) {
         return mRoutes.get(uri);
     }

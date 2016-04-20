@@ -15,7 +15,6 @@ import java.lang.reflect.Method;
  */
 public class Routers {
 
-    private Context mContext;
     private boolean mDebug = true;
 
     private final RouteManager mRouteManager;
@@ -23,6 +22,11 @@ public class Routers {
 
     private static volatile Routers sSingleton = null;
 
+    /**
+     * Routers instances
+     *
+     * @return routers
+     */
     public static Routers getInstances() {
         if (sSingleton == null) {
             synchronized (Routers.class) {
@@ -57,21 +61,7 @@ public class Routers {
         return mDebug;
     }
 
-    /**
-     * set context
-     *
-     * @param context context
-     */
-    private void setContext(Context context) {
-        mContext = context;
-    }
-
-    public void inject(Context context) {
-        setContext(context);
-        inject();
-    }
-
-    private void inject() {
+    public void inject() {
         try {
             Class clss = Class.forName("com.jt.funny.router.RoutersInject");
             Method method = clss.getMethod("inject");
