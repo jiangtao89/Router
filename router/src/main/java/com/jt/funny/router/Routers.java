@@ -1,7 +1,6 @@
 package com.jt.funny.router;
 
 import android.app.Activity;
-import android.content.Context;
 import android.net.Uri;
 
 import java.lang.reflect.InvocationTargetException;
@@ -63,7 +62,7 @@ public class Routers {
 
     public void inject() {
         try {
-            Class clss = Class.forName("com.jt.funny.router.RoutersInject");
+            Class clss = Class.forName("com.jt.funny.router.Routers$$Inject");
             Method method = clss.getMethod("inject");
             method.invoke(clss);
         } catch (ClassNotFoundException e) {

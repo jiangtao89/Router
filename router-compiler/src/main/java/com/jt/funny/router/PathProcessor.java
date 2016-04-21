@@ -10,7 +10,10 @@ import com.squareup.javapoet.TypeSpec;
 
 import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;
-import javax.lang.model.element.*;
+import javax.lang.model.element.Element;
+import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.Modifier;
+import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
 import java.io.IOException;
 import java.util.Collections;
@@ -26,14 +29,12 @@ import java.util.Set;
 public class PathProcessor extends AbstractProcessor {
 
     private Messager mMessager;
-    private Filer mFiler;
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
         super.init(processingEnv);
 
         mMessager = processingEnv.getMessager();
-        mFiler = processingEnv.getFiler();
     }
 
     @Override
@@ -48,7 +49,6 @@ public class PathProcessor extends AbstractProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-
         MethodSpec.Builder builder = MethodSpec.methodBuilder("inject")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .returns(void.class);
@@ -62,7 +62,7 @@ public class PathProcessor extends AbstractProcessor {
         }
 
         MethodSpec inject = builder.build();
-        TypeSpec routeInject = TypeSpec.classBuilder("RoutersInject")
+        TypeSpec routeInject = TypeSpec.classBuilder("Routers$$Inject")
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
                 .addMethod(inject)
                 .build();
@@ -80,26 +80,30 @@ public class PathProcessor extends AbstractProcessor {
 
     private boolean registerRoute(RoundEnvironment roundEnv, MethodSpec.Builder builder) {
         Set<? extends Element> targets = roundEnv.getElementsAnnotatedWith(IRoute.class);
+
         for (Element target : targets) {
-            if (target.getKind() != ElementKind.CLASS) {
-                error(target.getSimpleName() + " is not a class");
+            if (target.getKind() == ElementKind.CLASS) {
+                IRoute route = target.getAnnotation(IRoute.class);
+
+                String schema = route.schema();
+                String host = route.host();
+                String[] paths = route.path();
+                for (String path : paths) {
+                    String uri = schema + "://" + host + "/" + path;
+                    builder.addStatement("/** {@link $S} */"
+                            , uri);
+                    builder.addStatement("Routers.getInstances().registerRoute($S, $T.class)"
+                            , uri
+                            , ClassName.get((TypeElement) target));
+                }
+            } else {
+                error(target.getSimpleName() + " is not a class or a field");
                 return true;
             }
 
-            IRoute route = target.getAnnotation(IRoute.class);
 
-            String schema = route.schema();
-            String host = route.host();
-            String[] paths = route.path();
-            for (String path : paths) {
-                String uri = schema + "://" + host + "/" + path;
-                builder.addStatement("/** {@link $S} */"
-                        , uri);
-                builder.addStatement("Routers.getInstances().registerRoute($S, $T.class)"
-                        , uri
-                        , ClassName.get((TypeElement) target));
-            }
         }
+
         return false;
     }
 
