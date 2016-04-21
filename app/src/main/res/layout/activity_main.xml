@@ -9,4 +9,7 @@
     <Button android:layout_width="match_parent" android:layout_height="wrap_content" android:onClick="http"
         android:text="http" />
 
+    <Button android:layout_width="match_parent" android:layout_height="wrap_content" android:onClick="local"
+        android:text="local" />
+
 </LinearLayout>

@@ -25,6 +25,7 @@ public class MainActivity extends Activity {
                 .scheme("funny")
                 .host("page")
                 .path("third")
+                .appendQueryParameter("id", 5)
                 .requestCode(100)
                 .build()
                 .open();
@@ -34,6 +35,14 @@ public class MainActivity extends Activity {
         new Route.Builder()
                 .with(this)
                 .withUrl("http://wwww.baidu.com")
+                .build()
+                .open();
+    }
+
+    public void local(View view) {
+        new Route.Builder()
+                .with(this)
+                .withUrl("funny://page/second")
                 .build()
                 .open();
     }

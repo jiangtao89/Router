@@ -8,6 +8,8 @@ import android.net.Uri;
 /**
  * Created by jiangtao on 16/3/27.
  *
+ * {@code <scheme>://<host><absolute path>?<query>#<fragment>}
+ *
  * @author jiangtao
  * @version 1.0.0
  */
@@ -16,6 +18,7 @@ public class Route {
     private static final int DEFAULT_REQUEST_CODE = -1;
 
     /**
+     * {@code <scheme>://<host><absolute path>?<query>#<fragment>}
      * uri
      */
     private Uri mUri;
