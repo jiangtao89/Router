@@ -53,11 +53,15 @@ public class PathProcessor extends AbstractProcessor {
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .returns(void.class);
 
-        if (registerRoute(roundEnv, builder)) {
+        builder.addStatement("/** {@link Router} */");
+
+        if (registerRouter(roundEnv, builder)) {
             return false;
         }
 
-        if (registerRouter(roundEnv, builder)) {
+        builder.addStatement("/** {@link Route} */");
+
+        if (registerRoute(roundEnv, builder)) {
             return false;
         }
 
