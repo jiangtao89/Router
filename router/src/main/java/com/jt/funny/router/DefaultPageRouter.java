@@ -41,6 +41,10 @@ public class DefaultPageRouter extends Router {
         try {
             Intent intent = new Intent(activity, cls);
             int requestCode = route.getRequestCode();
+            /**
+             * if requestCode >= 0 with Intent.FLAG_ACTIVITY_NEW_TASK will
+             * call {@link Activity#onActivityResult(int, int, Intent) first}
+             */
             if (requestCode < 0) {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             }
